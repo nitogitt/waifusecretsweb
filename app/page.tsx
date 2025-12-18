@@ -177,7 +177,7 @@ export default function Home() {
         </div>
 
         <footer className="mt-12 text-neutral-400 text-sm">
-          © {new Date().getFullYear()} waifu_secrets — All rights reserved.
+© {new Date().getFullYear()} waifu_secrets — All rights reserved. v2
         </footer>
       </section>
     </main>
