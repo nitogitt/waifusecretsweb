@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
 import { Inter, DM_Serif_Display } from "next/font/google";
 
 import Particles from "@/components/Particles";
@@ -31,55 +30,16 @@ type LinkItem = {
 
 export default function Home() {
   const links: LinkItem[] = [
-    { name: "Patreon", url: "https://patreon.com/Waifu_Winks?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink", type: "primary" },
+    {
+      name: "Patreon",
+      url: "https://patreon.com/Waifu_Winks?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+      type: "primary",
+    },
     { name: "Throne", url: "https://throne.com/waifusecrets", type: "support" },
     { name: "Instagram", url: "https://www.instagram.com/waifu_secrets/", type: "normal" },
     { name: "Twitter / X", url: "https://x.com/waifu_winks", type: "normal" },
     { name: "DeviantArt", url: "https://www.deviantart.com/waifusecrets", type: "normal" },
   ];
-
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const fadeAudio = (target: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const steps = 18;
-    const start = audio.volume;
-    const delta = (target - start) / steps;
-    let i = 0;
-
-    const tick = () => {
-      i++;
-      audio.volume = Math.max(0, Math.min(1, start + delta * i));
-      if (i < steps) requestAnimationFrame(tick);
-    };
-
-    requestAnimationFrame(tick);
-  };
-
-  const toggleMusic = async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    try {
-      if (!playing) {
-        audio.volume = 0;
-        await audio.play();
-        setPlaying(true);
-        fadeAudio(0.4);
-      } else {
-        fadeAudio(0);
-        setPlaying(false);
-        setTimeout(() => audio.pause(), 420);
-      }
-    } catch {}
-  };
-
-  useEffect(() => {
-    if (audioRef.current) audioRef.current.volume = 0.4;
-  }, []);
 
   return (
     <main className={`${inter.className} relative min-h-screen text-white overflow-hidden`}>
@@ -102,14 +62,7 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="mb-5"
         >
-          <Image
-            src="/logo.png"
-            alt="Waifu Secrets Logo"
-            width={190}
-            height={190}
-            className="mx-auto"
-            priority
-          />
+          <Image src="/logo.png" alt="Waifu Secrets Logo" width={190} height={190} className="mx-auto" priority />
         </motion.div>
 
         {/* TAGLINE */}
@@ -173,9 +126,7 @@ export default function Home() {
                         <span className="text-xs text-[#ffd1c8]">→</span>
                       </div>
 
-                      <span className="text-sm text-[#ffd1c8]">
-                        Videos · Comics · NSFW
-                      </span>
+                      <span className="text-sm text-[#ffd1c8]">Videos · Comics · NSFW</span>
                     </div>
 
                     {/* mini barra sexy abajo */}
@@ -209,43 +160,30 @@ export default function Home() {
             return (
               <motion.a
                 key={i}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                className="
-                  rounded-2xl py-4 px-5 text-center font-medium text-lg
-                  bg-white/5 border border-white/10
-                  backdrop-blur-md
-                "
-              >
-                {link.name}
-              </motion.a>
-            );
-          })}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="
+                    rounded-2xl py-4 px-5 text-center font-medium text-lg
+                    bg-white/5 border border-white/10
+                    backdrop-blur-md
+                  "
+                >
+                  {link.name}
+                </motion.a>
+              );
+            })}
         </div>
 
         <footer className="mt-12 text-neutral-400 text-sm">
           © {new Date().getFullYear()} waifu_secrets — All rights reserved.
         </footer>
       </section>
-
-      {/* MUSIC */}
-      <audio ref={audioRef} loop preload="auto">
-        <source src="/audio/genesis.mp3" type="audio/mpeg" />
-      </audio>
-
-      <button
-        onClick={toggleMusic}
-        className="fixed bottom-7 right-7 z-[200] rounded-full px-5 py-4
-        bg-[#861438]/85 text-white hover:bg-[#a0174d]
-        transition"
-      >
-        {playing ? "🔊" : "🎧"}
-      </button>
     </main>
   );
 }
+
 
 
 
